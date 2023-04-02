@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <style>
+        .container1 {
+            max-width: 1500px; /* Change this value to adjust the width */
+        }.container2 {
+            max-width: 800px; /* Change this value to adjust the width */
+            flex-justify: center;
+        }
+    </style>
+</head>
+<body style="background-color: #82ac85" ;>
+<section class="vh-100">
+    <div class="container1 py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-1000">
+            <div class="col col-lg-9 col-xl-7">
+                <div class="card rounded-10">
+                    <div class="card-body p-4 " style="background-color: rgba(191,216,196,0.36)">
+                        <h1 class="text-center my-3 pb-3">Current expenses</h1>
+                        <div class="table-responsive">
+                            <table class="table table-bordered" style="max-width: 800px;">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col" class="col-1">Amount</th>
+                                    <th scope="col" class="col-6">Desciption</th>
+                                    <th scope="col" class="col-1">Person</th>
+                                    <th scope="col" class="col-2">Date</th>
+                                    <th scope="col" class="col-2">Remove</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="expense : ${list}">
+                                    <td th:text="*{expense.amount} + ' kr'"></td>
+                                    <td th:text="*{expense.description}"></td>
+                                    <td th:text="*{expense.personWhoPosted}"></td>
+                                    <td th:text="${#dates.format(expense.date, 'd. MMMM YYYY')}"></td>
+                                    <td>
+                                        <a type="button" class="btn btn-danger btn-sm"
+                                           th:href="@{'delete_expense/' + ${expense.id}}">Remove</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <form action="add_expense" method="post" th:object="${expense}">
+                                    <td><input type="number" th:field="*{amount}" placeholder="Amount"
+                                               style="width: 100%;"></td>
+                                    <td><input type="text" th:field="*{description}" placeholder="Short description"
+                                               style="width: 100%;"></td>
+                                    <td>
+                                        <select th:field="*{personWhoPosted}">
+                                            <option value="Asger">Asger</option>
+                                            <option value="Sofie">Sofie</option>
+                                        </select>
+                                    </td>
+                                    <td><input class="btn btn-success btn-sm" type="submit" value="Add expense"></td>
+                                </form>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container2 py-5 ">
+        <div class="row d-flex justify-content-center align-items-center h-1000">
+            <div class="col col-lg-9 col-xl-7">
+                <div class="card rounded-10">
+                    <div class="card-body p-4 " style="background-color: rgba(191,216,196,0.36)">
+                        <h1 class="text-center my-3 pb-3">Overview</h1>
+                        <div class="table-responsive">
+                            <table class="table table-bordered" style="max-width: 800px;">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col" class="col-6">Person</th>
+                                    <th scope="col" class="col-1">Amount</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="expense : ${list}">
+                                    <td th:text="*{expense.personWhoPosted}"></td>
+                                    <td th:text="*{expense.amount} + ' kr'"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
