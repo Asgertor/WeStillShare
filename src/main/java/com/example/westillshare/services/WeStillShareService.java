@@ -1,6 +1,7 @@
 package com.example.westillshare.services;
 
 import com.example.westillshare.model.Expense;
+import com.example.westillshare.model.Person;
 import com.example.westillshare.repositories.WeStillShareRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -21,10 +22,19 @@ public class WeStillShareService {
     }
 
     public void addExpense(Expense expense){
-        weStillShareRepository.addExpense(expense);
+        weStillShareRepository.addExpenseAndSplitAmount(expense);
     }
 
     public void deleteExpense(int id) {
-        weStillShareRepository.deleteExpense(id);
+        weStillShareRepository.deleteExpenseAndUpdateBalance(id);
     }
+
+    public List<Person> getBalance() {
+        return weStillShareRepository.getBalance();
+    }
+
+    public void clearBalance() {
+        weStillShareRepository.clearBalance();
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.example.westillshare.controllers;
 
 import com.example.westillshare.model.Expense;
+import com.example.westillshare.model.Person;
 import com.example.westillshare.services.WeStillShareService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,9 +23,11 @@ public class WeStillShareController {
         Expense expense = new Expense();
         model.addAttribute("expense", expense);
 
-        List<Expense> list = weStillShareService.getAllExpenses();
-        model.addAttribute("list", list);
-        System.out.println(list);
+        List<Expense> currentExpensesList = weStillShareService.getAllExpenses();
+        model.addAttribute("list", currentExpensesList);
+        List<Person> balance = weStillShareService.getBalance();
+        model.addAttribute("balance", balance);
+
         return "current_expenses";
     }
 
@@ -39,5 +42,12 @@ public class WeStillShareController {
         weStillShareService.deleteExpense(id);
         return "redirect:/westillshare/current_expenses";
     }
+
+    @GetMapping("clear_balance")
+    public String clearBalance() {
+        weStillShareService.clearBalance();
+        return "redirect:/westillshare/current_expenses";
+    }
+
 
 }
